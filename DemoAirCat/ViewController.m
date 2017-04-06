@@ -10,7 +10,7 @@
 
 #import "XTDraggableTable.h"
 
-@interface ViewController () <XTDraggableTableDelegate>
+@interface ViewController () <XTDraggableTableDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
 @property (nonatomic,strong) XTDraggableTable *draggableTable ;
 @end
@@ -21,13 +21,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
     self.draggableTable = ({
         _draggableTable = [[XTDraggableTable alloc] init] ;
         [_draggableTable setup:self scrollView:self.table] ;
         _draggableTable ;
     }) ;
-    
-    
 }
 
 #pragma mark - XTDraggableTableDelegate
@@ -44,6 +43,18 @@
 
 
 
+#pragma mark - UITableViewDataSource<NSObject>
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10 ;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *kIdentifier = @"testCell" ;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kIdentifier forIndexPath:indexPath] ;
+    return cell ;
+}
 
 
 

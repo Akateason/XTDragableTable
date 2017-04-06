@@ -9,22 +9,19 @@
 #define APPFRAME                        [UIScreen mainScreen].bounds
 #define APP_WIDTH                       CGRectGetWidth(APPFRAME)
 #define APP_HEIGHT                      CGRectGetHeight(APPFRAME)
-#define UPFRAME                         CGRectMake(0, - APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
-#define DOWNFRAME                       CGRectMake(0, APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
+#define ABOVEFRAME                      CGRectMake(0, - APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
+#define BELOWFRAME                      CGRectMake(0, APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
 
-#define kOverflowRange  APP_HEIGHT / 4.
-//    float overflowRange = (kHeightForRefresh+30) ;
-//static float const kHeightForRefresh = 135.f ;
+#define kHEAD_OVERFLOWRANGE             APP_HEIGHT / 4.
+
 
 
 #import "XTDraggableTable.h"
 
 @interface XTDraggableTable () <UIScrollViewDelegate>
-
-@property (nonatomic,strong) UIView *containner ; // ?
-@property (nonatomic,strong) UIRefreshControl *control ; // ?
-@property (nonatomic,strong) UIScrollView *scrollView ;
-
+@property (nonatomic,strong) UIView *containner ; // ? above view
+@property (nonatomic,strong) UIRefreshControl *control ; // ? header
+@property (nonatomic,strong) UIScrollView *scrollView ; // scrollview from handler ctrller
 @end
 
 @implementation XTDraggableTable
@@ -39,13 +36,14 @@
     
     self.control = ({
         UIRefreshControl *control = [[UIRefreshControl alloc] init] ;
+        control.attributedTitle = [[NSAttributedString alloc] initWithString:@"test refreshing"] ;
         [control addTarget:self action:@selector(refreshStateChange:) forControlEvents:UIControlEventValueChanged];
         [scrollView addSubview:control];
         control ;
     }) ;
     
     self.containner = ({
-        UIView *containner = [[UIView alloc] initWithFrame:UPFRAME] ;
+        UIView *containner = [[UIView alloc] initWithFrame:ABOVEFRAME] ;
         [ctrller.view addSubview:containner] ;
         containner ;
     }) ;
@@ -53,8 +51,8 @@
     
 
     // style for test .
-    self.control.tintColor = [UIColor orangeColor] ;
-    self.control.backgroundColor = [UIColor greenColor] ;
+    self.control.tintColor = [UIColor grayColor] ;
+    self.control.backgroundColor = [UIColor lightGrayColor] ;
     self.containner.backgroundColor = [UIColor blueColor] ;
 }
 
@@ -69,7 +67,6 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     NSLog(@"scrollViewDidScroll : %@",@(scrollView.contentOffset.y)) ;
-    
 }
 
 // called on start of dragging (may require some time and or distance to move)
@@ -78,18 +75,16 @@
     
 }
 
-
-
 // called on finger up if the user dragged. velocity is in points/millisecond. targetContentOffset may be changed to adjust where the scroll view comes to rest
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (scrollView.contentOffset.y < - kOverflowRange)
+    if (scrollView.contentOffset.y < - kHEAD_OVERFLOWRANGE)
     {
         [self.control endRefreshing] ;
         [UIView animateWithDuration:1.
                          animations:^{
                              self.containner.frame = APPFRAME ;
-                             self.scrollView.frame = DOWNFRAME ;
+                             self.scrollView.frame = BELOWFRAME ;
                          }] ;
     }
 }
