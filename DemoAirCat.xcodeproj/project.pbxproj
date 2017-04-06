@@ -15,6 +15,7 @@
 		60E239341E9624B1001235F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60E239321E9624B1001235F2 /* LaunchScreen.storyboard */; };
 		60E2393F1E9624B1001235F2 /* DemoAirCatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2393E1E9624B1001235F2 /* DemoAirCatTests.m */; };
 		60E2394A1E9624B1001235F2 /* DemoAirCatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239491E9624B1001235F2 /* DemoAirCatUITests.m */; };
+		60E2395B1E962B6B001235F2 /* XTDraggableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2395A1E962B6B001235F2 /* XTDraggableTable.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		60E239451E9624B1001235F2 /* DemoAirCatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAirCatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E239491E9624B1001235F2 /* DemoAirCatUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoAirCatUITests.m; sourceTree = "<group>"; };
 		60E2394B1E9624B1001235F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		60E239591E962B6B001235F2 /* XTDraggableTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XTDraggableTable.h; sourceTree = "<group>"; };
+		60E2395A1E962B6B001235F2 /* XTDraggableTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XTDraggableTable.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,7 @@
 			children = (
 				60E239271E9624B1001235F2 /* AppDelegate.h */,
 				60E239281E9624B1001235F2 /* AppDelegate.m */,
+				60E239581E962B4F001235F2 /* XTDraggableTable */,
 				60E2392A1E9624B1001235F2 /* ViewController.h */,
 				60E2392B1E9624B1001235F2 /* ViewController.m */,
 				60E2392D1E9624B1001235F2 /* Main.storyboard */,
@@ -138,6 +142,15 @@
 				60E2394B1E9624B1001235F2 /* Info.plist */,
 			);
 			path = DemoAirCatUITests;
+			sourceTree = "<group>";
+		};
+		60E239581E962B4F001235F2 /* XTDraggableTable */ = {
+			isa = PBXGroup;
+			children = (
+				60E239591E962B6B001235F2 /* XTDraggableTable.h */,
+				60E2395A1E962B6B001235F2 /* XTDraggableTable.m */,
+			);
+			path = XTDraggableTable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +288,7 @@
 			files = (
 				60E2392C1E9624B1001235F2 /* ViewController.m in Sources */,
 				60E239291E9624B1001235F2 /* AppDelegate.m in Sources */,
+				60E2395B1E962B6B001235F2 /* XTDraggableTable.m in Sources */,
 				60E239261E9624B1001235F2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
