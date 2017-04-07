@@ -10,8 +10,8 @@
 
 #import "XTDraggableTable.h"
 
-@interface ViewController () <XTDraggableTableDelegate,UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *table;
+@interface ViewController () <XTDraggableTableDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+
 @property (nonatomic,strong) XTDraggableTable *draggableTable ;
 @end
 
@@ -22,47 +22,116 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [self.navigationController setNavigationBarHidden:YES animated:NO] ;
+    self.edgesForExtendedLayout = UIRectEdgeNone ;
+    
     self.draggableTable = ({
-        _draggableTable = [[XTDraggableTable alloc] init] ;
-        [_draggableTable setup:self scrollView:self.table] ;
+        _draggableTable = [XTDraggableTable new] ;
+        [_draggableTable setup:self] ;
         _draggableTable ;
     }) ;
 }
 
 #pragma mark - XTDraggableTableDelegate
-- (void)pullup:(UIRefreshControl *)control
+- (void)pullup
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        // 模拟请求结束 .
-        [control endRefreshing] ;
-        
-    });
+    NSLog(@"请求") ;
+
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        // 模拟请求结束 .
+//        NSLog(@"end") ;
+//    });
+}
+
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.draggableTable manageScrollViewDidScroll:scrollView] ;
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    [self.draggableTable manageScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset] ;
+}
+
+// called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+// called on finger up as we are moving
+{
+    
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView      // called when scroll view grinds to a halt
+{
+    
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
+{
+    
 }
 
 
 
 
+
+
+
+
+
+
+
+#pragma mark -
+#pragma mark -
 #pragma mark - UITableViewDataSource<NSObject>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10 ;
+    if (tableView.tag == kTagMainTable) {
+        return 10 ;
+    }
+    else if (tableView.tag == kTagAboveTable) {
+        return 5 ;
+    }
+
+    return 0 ;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *kIdentifier = @"testCell" ;
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kIdentifier forIndexPath:indexPath] ;
-    return cell ;
+    if (tableView.tag == kTagMainTable) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"test333"] ;
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test333"] ;
+        }
+        cell.textLabel.text = @"aaaaaaaaaaaaaaaaa" ;
+        cell.backgroundColor = [UIColor purpleColor] ;
+        return cell ;
+    }
+    else if (tableView.tag == kTagAboveTable) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"test333"] ;
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test333"] ;
+        }
+        cell.textLabel.text = @"bbbbbbbbbbbbbbb" ;
+        cell.backgroundColor = [UIColor orangeColor] ;
+        return cell ;
+    }
+    
+    return nil ;
 }
 
 
 
 
 
-
-
-
+#pragma mark -
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

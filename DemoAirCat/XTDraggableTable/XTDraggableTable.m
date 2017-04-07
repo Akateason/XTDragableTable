@@ -12,103 +12,138 @@
 #define ABOVEFRAME                      CGRectMake(0, - APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
 #define BELOWFRAME                      CGRectMake(0, APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
 
-#define kHEAD_OVERFLOWRANGE             APP_HEIGHT / 4.
+#define kMAIN_PULLUP_OVERFLOW           APP_HEIGHT / 3.
+static float const kAbovePullDown       = 150. ;
 
 
 
 #import "XTDraggableTable.h"
+#import "MJRefresh.h"
+
 
 @interface XTDraggableTable () <UIScrollViewDelegate>
-@property (nonatomic,strong) UIView *containner ; // ? above view
-@property (nonatomic,strong) UIRefreshControl *control ; // ? header
-@property (nonatomic,strong) UIScrollView *scrollView ; // scrollview from handler ctrller
+@property (nonatomic,strong) UITableView *mainTable     ; // ? main scrollview from handler ctrller
+@property (nonatomic,strong) UITableView *aboveTable    ; // ? above view
+@property (nonatomic,strong) NSArray *gifs ;
 @end
 
 @implementation XTDraggableTable
 
 - (void)setup:(id)handler
-   scrollView:(UIScrollView *)scrollView
 {
     UIViewController *ctrller = handler ;
     self.delegate = handler ;
-    self.scrollView = scrollView ;
-    scrollView.delegate = self ;
-    
-    self.control = ({
-        UIRefreshControl *control = [[UIRefreshControl alloc] init] ;
-        control.attributedTitle = [[NSAttributedString alloc] initWithString:@"test refreshing"] ;
-        [control addTarget:self action:@selector(refreshStateChange:) forControlEvents:UIControlEventValueChanged];
-        [scrollView addSubview:control];
-        control ;
-    }) ;
-    
-    self.containner = ({
-        UIView *containner = [[UIView alloc] initWithFrame:ABOVEFRAME] ;
+
+    self.mainTable = ({
+        UITableView *containner = [[UITableView alloc] initWithFrame:APPFRAME] ;
+        NSLog(@" rect %@",NSStringFromCGRect(APPFRAME)) ;
+        containner.tag = kTagMainTable ;
         [ctrller.view addSubview:containner] ;
+        containner.dataSource = handler ;
+        containner.delegate = handler ;
+        containner ;
+    }) ;
+
+    
+    NSArray *idleImages = @[[self.gifs firstObject]] ;
+    NSArray *pullingImages = self.gifs ;
+    NSArray *refreshingImages = self.gifs ;
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewDataSelector)];
+    [header setImages:idleImages forState:MJRefreshStateIdle];
+    [header setImages:pullingImages forState:MJRefreshStatePulling];
+    [header setImages:refreshingImages forState:MJRefreshStateRefreshing];
+    self.mainTable.mj_header = header;
+
+    
+    self.aboveTable = ({
+        UITableView *containner = [[UITableView alloc] initWithFrame:ABOVEFRAME] ;
+        containner.tag = kTagAboveTable ;
+        [ctrller.view addSubview:containner] ;
+        containner.dataSource = handler ;
+        containner.delegate = handler ;
         containner ;
     }) ;
     
     
 
     // style for test .
-    self.control.tintColor = [UIColor grayColor] ;
-    self.control.backgroundColor = [UIColor lightGrayColor] ;
-    self.containner.backgroundColor = [UIColor blueColor] ;
+//    self.control.tintColor = [UIColor grayColor] ;
+//    self.control.backgroundColor = [UIColor lightGrayColor] ;
+//    self.aboveTable.backgroundColor = [UIColor blueColor] ;
 }
 
-- (void)refreshStateChange:(UIRefreshControl *)control
+- (void)loadNewDataSelector
 {
     NSLog(@"pull up") ;
-    [self.delegate pullup:control] ;
-}
-
-
-#pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSLog(@"scrollViewDidScroll : %@",@(scrollView.contentOffset.y)) ;
-}
-
-// called on start of dragging (may require some time and or distance to move)
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
+    if ([self.mainTable.mj_header isRefreshing]) {
+        [self.delegate pullup] ;
+        [self headerEnding] ;
+    }
     
 }
 
-// called on finger up if the user dragged. velocity is in points/millisecond. targetContentOffset may be changed to adjust where the scroll view comes to rest
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+- (void)headerEnding
 {
-    if (scrollView.contentOffset.y < - kHEAD_OVERFLOWRANGE)
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mainTable.mj_header endRefreshing];
+    }) ;
+}
+
+- (NSArray *)gifs
+{
+    if (!_gifs) {
+        NSMutableArray *tmplist = [@[] mutableCopy] ;
+        for (int i = 0 ; i <= 40; i++) {
+            [tmplist addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Loading%@",@(i)]]] ;
+        }
+        _gifs = tmplist ;
+    }
+    return _gifs ;
+}
+
+
+#pragma mark - public
+- (void)manageScrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.tag == kTagMainTable)
     {
-        [self.control endRefreshing] ;
-        [UIView animateWithDuration:1.
-                         animations:^{
-                             self.containner.frame = APPFRAME ;
-                             self.scrollView.frame = BELOWFRAME ;
-                         }] ;
+        NSLog(@"main scrollViewDidScroll : %@",@(scrollView.contentOffset.y)) ;
+    }
+    else if (scrollView.tag == kTagAboveTable)
+    {
+        NSLog(@"above scrollViewDidScroll : %@",@(scrollView.contentOffset.y)) ;
     }
 }
-// called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+
+- (void)manageScrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    
+    if (scrollView.tag == kTagMainTable)
+    {
+        // dragging main table . let above table display .
+        if (scrollView.contentOffset.y < - kMAIN_PULLUP_OVERFLOW)
+        {
+            [self headerEnding] ;
+            [UIView animateWithDuration:1.
+                             animations:^{
+                                 self.aboveTable.frame = APPFRAME ;
+                                 self.mainTable.frame = BELOWFRAME ;
+                             }] ;
+        }
+    }
+    else if (scrollView.tag == kTagAboveTable)
+    {
+        // dragging above table .
+        if (scrollView.contentOffset.y > kAbovePullDown)
+        {
+            [UIView animateWithDuration:1.
+                             animations:^{
+                                 self.aboveTable.frame = ABOVEFRAME ;
+                                 self.mainTable.frame = APPFRAME ;
+                             }] ;
+        }
+    }
 }
 
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-// called on finger up as we are moving
-{
-   
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView      // called when scroll view grinds to a halt
-{
-    
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
-{
-    
-}
 
 
 
