@@ -17,9 +17,11 @@ static const int kTagAboveTable         = 12121 ;
 
 @protocol XTDraggableTableDelegate <NSObject>
 @required
-- (void)pullup:(MJRefreshHeader *)header ;
-- (void)pullupComplete ;
-- (void)pulldownComplete ;
+- (void)main_pullup:(MJRefreshHeader *)header ;
+- (void)above_pullup:(MJRefreshHeader *)header ;
+@optional
+- (void)aboveDisplayComplete ;
+- (void)mainDisplayComplete ;
 @end
 
 

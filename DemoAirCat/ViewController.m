@@ -15,6 +15,7 @@
 @property (nonatomic,strong) XTDraggableTable *draggableTable ;
 
 @property (nonatomic,strong) UIButton *btTest ;
+
 @end
 
 @implementation ViewController
@@ -48,11 +49,9 @@
 
 
 #pragma mark - XTDraggableTableDelegate
-- (void)pullup:(MJRefreshHeader *)header
+- (void)main_pullup:(MJRefreshHeader *)header
 {
-    NSLog(@"请求") ;
-    
-    
+    NSLog(@"请求 main") ;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         // 模拟请求结束 .
@@ -60,17 +59,27 @@
     });
 }
 
-- (void)pullupComplete
+- (void)above_pullup:(MJRefreshHeader *)header
 {
-//    self.btTest.hidden = YES ;
+    NSLog(@"请求 above") ;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        // 模拟请求结束 .
+        [header endRefreshing] ;
+    });
 }
 
-- (void)pulldownComplete
+- (void)aboveDisplayComplete
 {
-//    self.btTest.hidden = NO ;
+    NSLog(@"aboveDisplayComplete") ;
+}
+- (void)mainDisplayComplete
+{
+    NSLog(@"mainDisplayComplete") ;
 }
 
 #pragma mark - UIScrollViewDelegate
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.draggableTable manageScrollViewDidScroll:scrollView] ;
@@ -81,6 +90,7 @@
     [self.draggableTable manageScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset] ;
 }
 
+/*
 // called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
@@ -102,7 +112,7 @@
 {
     
 }
-
+*/
 
 
 
@@ -144,13 +154,16 @@
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test333"] ;
         }
-        cell.textLabel.text = @"bbbbbbbbbbbbbbb" ;
+        cell.textLabel.text = @"bbbbbbbbbbbbbbbbbbbbbbbbbb" ;
         cell.backgroundColor = [UIColor orangeColor] ;
         return cell ;
     }
     
     return nil ;
 }
+
+
+
 
 
 
@@ -163,4 +176,10 @@
 }
 
 
+
+
+
 @end
+
+
+
