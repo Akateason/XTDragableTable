@@ -60,7 +60,6 @@ static float const kAbovePullDown       = 150. ;
     [header setTitle:header.lastUpdatedTimeKey forState:MJRefreshStateWillRefresh] ;
     
     self.mainTable.mj_header = header;
-
     self.mainTable.contentInset = UIEdgeInsetsMake(self.mainTable.mj_header.mj_h + 20., 0, 0, 0) ;
 
     self.aboveTable = ({
@@ -96,7 +95,7 @@ static float const kAbovePullDown       = 150. ;
 {
     if (!_gifs) {
         NSMutableArray *tmplist = [@[] mutableCopy] ;
-        for (int i = 0 ; i <= 40; i++) {
+        for (int i = 0 ; i <= 5; i++) {
 //            [tmplist addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Loading%@",@(i)]]] ;
             [tmplist addObject:[UIImage imageNamed:@"refresh"]] ;
         }

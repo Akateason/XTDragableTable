@@ -62,12 +62,12 @@
 
 - (void)pullupComplete
 {
-    self.btTest.hidden = YES ;
+//    self.btTest.hidden = YES ;
 }
 
 - (void)pulldownComplete
 {
-    self.btTest.hidden = NO ;
+//    self.btTest.hidden = NO ;
 }
 
 #pragma mark - UIScrollViewDelegate
