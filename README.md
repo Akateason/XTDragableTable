@@ -2,7 +2,7 @@
 
 双tableview, 大范围滑动切换, 带下拉刷新.
 
-
+```
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,3 +58,4 @@
 {
     [self.draggableTable manageScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset] ;
 }
+```
