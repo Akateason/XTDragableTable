@@ -12,7 +12,7 @@
 #define ABOVEFRAME                      CGRectMake(0, - APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
 #define BELOWFRAME                      CGRectMake(0, APP_HEIGHT, APP_WIDTH, APP_HEIGHT)
 
-#define kMAIN_PULLUP_OVERFLOW           APP_HEIGHT / 3.
+#define kMAIN_PULLUP_OVERFLOW           ( APP_HEIGHT / 4. + self.mainTable.mj_header.mj_h )
 static float const kAbovePullDown       = 150. ;
 
 
@@ -24,7 +24,7 @@ static float const kAbovePullDown       = 150. ;
 @interface XTDraggableTable () <UIScrollViewDelegate>
 @property (nonatomic,strong) UITableView *mainTable     ; // ? main scrollview from handler ctrller
 @property (nonatomic,strong) UITableView *aboveTable    ; // ? above view
-@property (nonatomic,strong) NSArray *gifs ;
+@property (nonatomic,strong) NSArray     *gifs          ;
 @end
 
 @implementation XTDraggableTable
@@ -36,7 +36,7 @@ static float const kAbovePullDown       = 150. ;
 
     self.mainTable = ({
         UITableView *containner = [[UITableView alloc] initWithFrame:APPFRAME] ;
-        NSLog(@" rect %@",NSStringFromCGRect(APPFRAME)) ;
+        NSLog(@" rect %@ ",NSStringFromCGRect(APPFRAME)) ;
         containner.tag = kTagMainTable ;
         [ctrller.view addSubview:containner] ;
         containner.dataSource = handler ;
@@ -52,9 +52,17 @@ static float const kAbovePullDown       = 150. ;
     [header setImages:idleImages forState:MJRefreshStateIdle];
     [header setImages:pullingImages forState:MJRefreshStatePulling];
     [header setImages:refreshingImages forState:MJRefreshStateRefreshing];
+    header.lastUpdatedTimeLabel.hidden = YES ;
+//    header.stateLabel.hidden = YES ;
+    [header setTitle:@"下拉刷新" forState:MJRefreshStateIdle] ;
+    [header setTitle:@"释放刷新" forState:MJRefreshStatePulling] ;
+    [header setTitle:@"正在刷新" forState:MJRefreshStateRefreshing] ;
+    [header setTitle:header.lastUpdatedTimeKey forState:MJRefreshStateWillRefresh] ;
+    
     self.mainTable.mj_header = header;
 
-    
+    self.mainTable.contentInset = UIEdgeInsetsMake(self.mainTable.mj_header.mj_h + 20., 0, 0, 0) ;
+
     self.aboveTable = ({
         UITableView *containner = [[UITableView alloc] initWithFrame:ABOVEFRAME] ;
         containner.tag = kTagAboveTable ;
@@ -67,19 +75,14 @@ static float const kAbovePullDown       = 150. ;
     
 
     // style for test .
-//    self.control.tintColor = [UIColor grayColor] ;
-//    self.control.backgroundColor = [UIColor lightGrayColor] ;
-//    self.aboveTable.backgroundColor = [UIColor blueColor] ;
+    self.mainTable.mj_header.backgroundColor = [UIColor lightGrayColor] ;
 }
 
 - (void)loadNewDataSelector
 {
-    NSLog(@"pull up") ;
     if ([self.mainTable.mj_header isRefreshing]) {
-        [self.delegate pullup] ;
-        [self headerEnding] ;
+        [self.delegate pullup:self.mainTable.mj_header] ;
     }
-    
 }
 
 - (void)headerEnding
@@ -94,7 +97,8 @@ static float const kAbovePullDown       = 150. ;
     if (!_gifs) {
         NSMutableArray *tmplist = [@[] mutableCopy] ;
         for (int i = 0 ; i <= 40; i++) {
-            [tmplist addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Loading%@",@(i)]]] ;
+//            [tmplist addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Loading%@",@(i)]]] ;
+            [tmplist addObject:[UIImage imageNamed:@"refresh"]] ;
         }
         _gifs = tmplist ;
     }
@@ -127,7 +131,11 @@ static float const kAbovePullDown       = 150. ;
                              animations:^{
                                  self.aboveTable.frame = APPFRAME ;
                                  self.mainTable.frame = BELOWFRAME ;
-                             }] ;
+                             }
+             
+                             completion:^(BOOL finished) {
+                                 [self.delegate pullupComplete] ;
+             }] ;
         }
     }
     else if (scrollView.tag == kTagAboveTable)
@@ -139,7 +147,11 @@ static float const kAbovePullDown       = 150. ;
                              animations:^{
                                  self.aboveTable.frame = ABOVEFRAME ;
                                  self.mainTable.frame = APPFRAME ;
-                             }] ;
+                             }
+             
+                             completion:^(BOOL finished) {
+                                 [self.delegate pulldownComplete] ;
+             }] ;
         }
     }
 }

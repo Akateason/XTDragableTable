@@ -7,12 +7,14 @@
 //
 
 #import "ViewController.h"
-
+#import "MJRefresh.h"
 #import "XTDraggableTable.h"
 
 @interface ViewController () <XTDraggableTableDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic,strong) XTDraggableTable *draggableTable ;
+
+@property (nonatomic,strong) UIButton *btTest ;
 @end
 
 @implementation ViewController
@@ -26,24 +28,47 @@
     self.edgesForExtendedLayout = UIRectEdgeNone ;
     
     self.draggableTable = ({
-        _draggableTable = [XTDraggableTable new] ;
-        [_draggableTable setup:self] ;
-        _draggableTable ;
+        XTDraggableTable *draggableTable = [XTDraggableTable new] ;
+        [draggableTable setup:self] ;
+        draggableTable ;
     }) ;
+    
+    self.btTest = ({
+        UIButton *bt = [UIButton new] ;
+        [bt setTitle:@"CLICK" forState:0] ;
+        bt.backgroundColor = [UIColor blackColor] ;
+        bt.frame = CGRectMake(20, 20, 60, 40) ;
+        [self.view addSubview:bt] ;
+        bt ;
+    }) ;
+    
 }
+
+
+
 
 #pragma mark - XTDraggableTableDelegate
-- (void)pullup
+- (void)pullup:(MJRefreshHeader *)header
 {
     NSLog(@"请求") ;
-
     
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        // 模拟请求结束 .
-//        NSLog(@"end") ;
-//    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        // 模拟请求结束 .
+        [header endRefreshing] ;
+    });
 }
 
+- (void)pullupComplete
+{
+    self.btTest.hidden = YES ;
+}
+
+- (void)pulldownComplete
+{
+    self.btTest.hidden = NO ;
+}
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

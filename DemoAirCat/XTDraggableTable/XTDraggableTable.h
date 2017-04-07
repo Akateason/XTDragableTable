@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class MJRefreshHeader ;
+
+
 static const int kTagMainTable          = 12120 ;
 static const int kTagAboveTable         = 12121 ;
 
 
 @protocol XTDraggableTableDelegate <NSObject>
-
-- (void)pullup ;
-
+@required
+- (void)pullup:(MJRefreshHeader *)header ;
+- (void)pullupComplete ;
+- (void)pulldownComplete ;
 @end
 
 
