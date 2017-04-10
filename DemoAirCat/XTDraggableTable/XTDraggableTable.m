@@ -19,12 +19,11 @@ static float const kAbovePullDown       = 100. ;
 
 #import "XTDraggableTable.h"
 #import "MJRefresh.h"
-
+#import "PhicommHeader.h"
 
 @interface XTDraggableTable () <UIScrollViewDelegate>
 @property (nonatomic,strong) UITableView *mainTable     ; // ? main scrollview from handler ctrller
 @property (nonatomic,strong) UITableView *aboveTable    ; // ? above view
-@property (nonatomic,strong) NSArray     *gifs          ;
 @end
 
 @implementation XTDraggableTable
@@ -42,11 +41,10 @@ static float const kAbovePullDown       = 100. ;
         [ctrller.view addSubview:containner] ;
         containner.dataSource = handler ;
         containner.delegate = handler ;
+        containner.mj_header = [self newHeader] ;
+        containner.contentInset = UIEdgeInsetsMake(containner.mj_header.mj_h + 20., 0, 0, 0) ;
         containner ;
     }) ;
-    self.mainTable.mj_header = [self newHeader] ;
-    self.mainTable.contentInset = UIEdgeInsetsMake(self.mainTable.mj_header.mj_h + 20., 0, 0, 0) ;
-
     
     self.aboveTable = ({
         UITableView *containner = [[UITableView alloc] initWithFrame:ABOVEFRAME] ;
@@ -54,11 +52,10 @@ static float const kAbovePullDown       = 100. ;
         [ctrller.view addSubview:containner] ;
         containner.dataSource = handler ;
         containner.delegate = handler ;
+        containner.mj_header = [self newHeader] ;
+        containner.contentInset = UIEdgeInsetsMake(containner.mj_header.mj_h + 20., 0, 0, 0) ;
         containner ;
     }) ;
-    self.aboveTable.mj_header = [self newHeader];
-    self.aboveTable.contentInset = UIEdgeInsetsMake(self.mainTable.mj_header.mj_h + 20., 0, 0, 0) ;
-
 
     // style for test //
     self.mainTable.mj_header.backgroundColor = [UIColor lightGrayColor] ;
@@ -85,7 +82,8 @@ static float const kAbovePullDown       = 100. ;
         // dragging main table . let above table display . pull up
         if (scrollView.contentOffset.y < - kMAIN_PULLUP_OVERFLOW)
         {
-            [self main_headerEnding] ;
+            [self.mainTable.mj_header endRefreshing];
+
             [UIView animateWithDuration:1.
                              animations:^{
                                  self.aboveTable.frame = APPFRAME ;
@@ -121,41 +119,9 @@ static float const kAbovePullDown       = 100. ;
 
 #pragma mark - private
 
-- (void)main_headerEnding
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.mainTable.mj_header endRefreshing];
-    }) ;
-}
-
-- (NSArray *)gifs
-{
-    if (!_gifs) {
-        NSMutableArray *tmplist = [@[] mutableCopy] ;
-        for (int i = 0 ; i <= 5; i++) {
-            //            [tmplist addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Loading%@",@(i)]]] ;
-            [tmplist addObject:[UIImage imageNamed:@"refresh"]] ; // test gif
-        }
-        _gifs = tmplist ;
-    }
-    return _gifs ;
-}
-
 - (MJRefreshGifHeader *)newHeader
 {
-    NSArray *idleImages = @[[self.gifs firstObject]] ;
-    NSArray *pullingImages = self.gifs ;
-    NSArray *refreshingImages = self.gifs ;
-    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewDataSelector)];
-    [header setImages:idleImages forState:MJRefreshStateIdle];
-    [header setImages:pullingImages forState:MJRefreshStatePulling];
-    [header setImages:refreshingImages forState:MJRefreshStateRefreshing];
-    header.lastUpdatedTimeLabel.hidden = YES ;
-    //    header.stateLabel.hidden = YES ;
-    [header setTitle:@"下拉刷新" forState:MJRefreshStateIdle] ;
-    [header setTitle:@"释放刷新" forState:MJRefreshStatePulling] ;
-    [header setTitle:@"正在刷新" forState:MJRefreshStateRefreshing] ;
-    [header setTitle:header.lastUpdatedTimeKey forState:MJRefreshStateWillRefresh] ;
+    PhicommHeader *header = [PhicommHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewDataSelector)] ;
     return header ;
 }
 
