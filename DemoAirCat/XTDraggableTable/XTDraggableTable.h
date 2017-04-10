@@ -36,4 +36,7 @@ static const int kTagAboveTable         = 12121 ;
                            withVelocity:(CGPoint)velocity
                     targetContentOffset:(inout CGPoint *)targetContentOffset ;
 
+- (void)reloadMain ;
+- (void)reloadAbove ;
+
 @end

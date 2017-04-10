@@ -117,6 +117,16 @@ static float const kAbovePullDown       = 100. ;
 }
 
 
+- (void)reloadMain
+{
+    [self.mainTable reloadData] ;
+}
+
+- (void)reloadAbove
+{
+    [self.aboveTable reloadData] ;
+}
+
 #pragma mark - private
 
 - (MJRefreshGifHeader *)newHeader
