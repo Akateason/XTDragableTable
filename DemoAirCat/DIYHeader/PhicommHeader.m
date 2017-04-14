@@ -16,7 +16,7 @@
 
 - (void)prepare
 {
-    [super prepare];
+    [super prepare] ;
     
     // readonly in super .
     self.aGifView = [self valueForKey:@"gifView"] ;
@@ -55,8 +55,6 @@
     [super placeSubviews];
     
     self.aGifView.mj_w = self.mj_w * 0.5 - 30;
-//    aGifView.backgroundColor = [UIColor blueColor] ;
-//    self.stateLabel.backgroundColor = [UIColor yellowColor] ;
 }
 
 #pragma mark 监听scrollView的contentOffset改变
@@ -85,20 +83,17 @@
     switch (state) {
         case MJRefreshStateIdle:
         {
-//            self.aGifView.hidden = YES ;
             self.stateLabel.text = @"下拉刷新" ;
             self.stateLabel.text = [self.lastUpdatedTime description] ;
         }
             break;
         case MJRefreshStatePulling:
         {
-//            self.aGifView.hidden = NO ;
             self.stateLabel.text = @"释放刷新" ;
         }
             break;
         case MJRefreshStateRefreshing:
         {
-//            self.aGifView.hidden = NO ;
             self.stateLabel.text = @"正在刷新" ;
         }
             break;

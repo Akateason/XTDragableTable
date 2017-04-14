@@ -15,28 +15,39 @@ static const int kTagMainTable          = 12120 ;
 static const int kTagAboveTable         = 12121 ;
 
 
-@protocol XTDraggableTableDelegate <NSObject>
+@protocol XTDraggableTableMainDelegate <NSObject>
 @required
-- (void)main_pullup:(MJRefreshHeader *)header ;
-- (void)above_pullup:(MJRefreshHeader *)header ;
+- (void)main_pullup:(MJRefreshHeader *)header ; // [header endrefresh] when request complete or fail .
+@optional
+- (void)mainDisplayComplete ;
+@end
+
+@protocol XTDraggableTableAboveDelegate <NSObject>
+@required
+- (void)above_pullup:(MJRefreshHeader *)header ; // [header endrefresh] when request complete or fail .
 @optional
 - (void)aboveDisplayComplete ;
-- (void)mainDisplayComplete ;
 @end
 
 
 @interface XTDraggableTable : UIView
-
-@property (nonatomic,weak) id <XTDraggableTableDelegate> delegate ;
-
-- (void)setup:(id)handler ;
-
-- (void)manageScrollViewDidScroll:(UIScrollView *)scrollView ;
+@property (nonatomic,weak) id <XTDraggableTableMainDelegate>    mainDelegate    ;
+@property (nonatomic,weak) id <XTDraggableTableAboveDelegate>   aboveDelegate   ;
+@property (nonatomic,strong,readonly) UITableView *mainTable     ;
+@property (nonatomic,strong,readonly) UITableView *aboveTable    ;
+@property (nonatomic,assign) float mainDragHeight   ;
+@property (nonatomic,assign) float aboveDragHeight  ;
+// setup
+- (void)setup:(id)handler ; // ctrller,mainHandler,aboveHandler
+- (void)setupWithController:(UIViewController *)ctrller
+                mainHandler:(id)mainHandler
+               aboveHandler:(id)aboveHandler ;
+// scrollViewDelegate
+- (void)manageScrollViewDidScroll:(UIScrollView *)scrollView                    ;
 - (void)manageScrollViewWillEndDragging:(UIScrollView *)scrollView
                            withVelocity:(CGPoint)velocity
-                    targetContentOffset:(inout CGPoint *)targetContentOffset ;
-
-- (void)reloadMain ;
+                    targetContentOffset:(inout CGPoint *)targetContentOffset    ;
+// reload table
+- (void)reloadMain  ;
 - (void)reloadAbove ;
-
 @end

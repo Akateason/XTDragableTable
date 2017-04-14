@@ -10,11 +10,9 @@
 #import "MJRefresh.h"
 #import "XTDraggableTable.h"
 
-@interface ViewController () <XTDraggableTableDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+@interface ViewController () <XTDraggableTableMainDelegate,XTDraggableTableAboveDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic,strong) XTDraggableTable *draggableTable ;
-
-@property (nonatomic,strong) UIButton *btTest ;
 
 @end
 
@@ -29,18 +27,9 @@
     self.edgesForExtendedLayout = UIRectEdgeNone ;
     
     self.draggableTable = ({
-        XTDraggableTable *draggableTable = [XTDraggableTable new] ;
-        [draggableTable setup:self] ;
-        draggableTable ;
-    }) ;
-    
-    self.btTest = ({
-        UIButton *bt = [UIButton new] ;
-        [bt setTitle:@"CLICK" forState:0] ;
-        bt.backgroundColor = [UIColor blackColor] ;
-        bt.frame = CGRectMake(20, 20, 60, 40) ;
-        [self.view addSubview:bt] ;
-        bt ;
+        XTDraggableTable *view = [XTDraggableTable new] ;
+        [view setup:self] ;
+        view ;
     }) ;
     
 }
@@ -59,6 +48,11 @@
     });
 }
 
+- (void)mainDisplayComplete
+{
+    NSLog(@"mainDisplayComplete") ;
+}
+
 - (void)above_pullup:(MJRefreshHeader *)header
 {
     NSLog(@"请求 above") ;
@@ -73,10 +67,7 @@
 {
     NSLog(@"aboveDisplayComplete") ;
 }
-- (void)mainDisplayComplete
-{
-    NSLog(@"mainDisplayComplete") ;
-}
+
 
 #pragma mark - UIScrollViewDelegate
 
