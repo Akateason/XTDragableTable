@@ -3,6 +3,7 @@
 
 抄之前淘宝个人主页的一个交互,
 一个双tableview控件, 大范围滑动切换table, 小范围滑动下拉刷新 .
+![Paste_Image.png](http://upload-images.jianshu.io/upload_images/838591-693060f3dcac33fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 特性介绍
 
