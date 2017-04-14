@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		607E5F821EA1028E00D05213 /* DIYHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 607E5F811EA1028E00D05213 /* DIYHeader.m */; };
 		60E239261E9624B1001235F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239251E9624B1001235F2 /* main.m */; };
 		60E239291E9624B1001235F2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239281E9624B1001235F2 /* AppDelegate.m */; };
 		60E2392C1E9624B1001235F2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2392B1E9624B1001235F2 /* ViewController.m */; };
@@ -35,7 +36,6 @@
 		60E2399C1E972F9A001235F2 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239871E972F9A001235F2 /* UIScrollView+MJExtension.m */; };
 		60E2399D1E972F9A001235F2 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239891E972F9A001235F2 /* UIScrollView+MJRefresh.m */; };
 		60E2399E1E972F9A001235F2 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2398B1E972F9A001235F2 /* UIView+MJExtension.m */; };
-		60E239AA1E9B18C4001235F2 /* PhicommHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239A91E9B18C4001235F2 /* PhicommHeader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		607E5F801EA1028E00D05213 /* DIYHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DIYHeader.h; path = DIYHeader/DIYHeader.h; sourceTree = "<group>"; };
+		607E5F811EA1028E00D05213 /* DIYHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DIYHeader.m; path = DIYHeader/DIYHeader.m; sourceTree = "<group>"; };
 		60E239211E9624B1001235F2 /* DemoAirCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoAirCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E239251E9624B1001235F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		60E239271E9624B1001235F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -112,8 +114,6 @@
 		60E239891E972F9A001235F2 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		60E2398A1E972F9A001235F2 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		60E2398B1E972F9A001235F2 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
-		60E239A81E9B18C4001235F2 /* PhicommHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhicommHeader.h; path = DIYHeader/PhicommHeader.h; sourceTree = "<group>"; };
-		60E239A91E9B18C4001235F2 /* PhicommHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhicommHeader.m; path = DIYHeader/PhicommHeader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,8 +311,8 @@
 		60E239A71E9B1887001235F2 /* DIYheader */ = {
 			isa = PBXGroup;
 			children = (
-				60E239A81E9B18C4001235F2 /* PhicommHeader.h */,
-				60E239A91E9B18C4001235F2 /* PhicommHeader.m */,
+				607E5F801EA1028E00D05213 /* DIYHeader.h */,
+				607E5F811EA1028E00D05213 /* DIYHeader.m */,
 			);
 			name = DIYheader;
 			sourceTree = "<group>";
@@ -465,11 +465,11 @@
 				60E239901E972F9A001235F2 /* MJRefreshHeader.m in Sources */,
 				60E239941E972F9A001235F2 /* MJRefreshBackGifFooter.m in Sources */,
 				60E2399D1E972F9A001235F2 /* UIScrollView+MJRefresh.m in Sources */,
+				607E5F821EA1028E00D05213 /* DIYHeader.m in Sources */,
 				60E239291E9624B1001235F2 /* AppDelegate.m in Sources */,
 				60E2398E1E972F9A001235F2 /* MJRefreshComponent.m in Sources */,
 				60E239931E972F9A001235F2 /* MJRefreshAutoStateFooter.m in Sources */,
 				60E239981E972F9A001235F2 /* MJRefreshNormalHeader.m in Sources */,
-				60E239AA1E9B18C4001235F2 /* PhicommHeader.m in Sources */,
 				60E239991E972F9A001235F2 /* MJRefreshStateHeader.m in Sources */,
 				60E239961E972F9A001235F2 /* MJRefreshBackStateFooter.m in Sources */,
 				60E239911E972F9A001235F2 /* MJRefreshAutoGifFooter.m in Sources */,
@@ -708,6 +708,7 @@
 				60E239501E9624B1001235F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		60E239511E9624B1001235F2 /* Build configuration list for PBXNativeTarget "DemoAirCatTests" */ = {
 			isa = XCConfigurationList;
@@ -716,6 +717,7 @@
 				60E239531E9624B1001235F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		60E239541E9624B1001235F2 /* Build configuration list for PBXNativeTarget "DemoAirCatUITests" */ = {
 			isa = XCConfigurationList;
@@ -724,6 +726,7 @@
 				60E239561E9624B1001235F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

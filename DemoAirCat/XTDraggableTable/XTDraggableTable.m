@@ -18,7 +18,7 @@
 
 #import "XTDraggableTable.h"
 #import "MJRefresh.h"
-#import "PhicommHeader.h"
+#import "DIYHeader.h"
 
 @interface XTDraggableTable () <UIScrollViewDelegate>
 @property (nonatomic,strong,readwrite) UITableView *mainTable     ;
@@ -167,7 +167,7 @@
 
 - (MJRefreshGifHeader *)newHeader
 {
-    PhicommHeader *header = [PhicommHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewDataSelector)] ;
+    DIYHeader *header = [DIYHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewDataSelector)] ;
     return header ;
 }
 

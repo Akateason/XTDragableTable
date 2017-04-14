@@ -1,18 +1,20 @@
 //
-//  PhicommHeader.m
+//  DIYHeader.m
 //  DemoAirCat
 //
-//  Created by teason on 2017/4/10.
+//  Created by teason on 2017/4/14.
 //  Copyright © 2017年 teason. All rights reserved.
 //
 
-#import "PhicommHeader.h"
+#import "DIYHeader.h"
 
-@interface PhicommHeader ()
+@interface DIYHeader ()
+
 @property (nonatomic,weak) UIImageView *aGifView ;
+
 @end
 
-@implementation PhicommHeader
+@implementation DIYHeader
 
 - (void)prepare
 {
@@ -101,6 +103,7 @@
             break;
     }
 }
+
 
 
 /*
