@@ -1,61 +1,55 @@
 # XTDragableTable
 
-双tableview, 大范围滑动切换, 带下拉刷新.
+
+抄之前淘宝个人主页的一个交互,
+一个双tableview控件, 大范围滑动切换table, 小范围滑动下拉刷新 .
+
+特性介绍
+
+1. 灵活的协议接口. 按需求使用
+2. 轻便的封装.初始化一行
+3. 无需再处理scrollViewDelegate
+4. 可调整大范围拖拽的高度.
+
+
 
 ```
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
 
-    
-    self.draggableTable = ({
-        XTDraggableTable *draggableTable = [XTDraggableTable new] ;
-        [draggableTable setup:self] ;
-        draggableTable ;
-    }) ;    
-}
+@protocol XTDraggableTableMainDelegate <NSObject>
+@required
+- (void)main_pullup:(MJRefreshHeader *)header ; // [header endrefresh] when request complete or fail .
+@optional
+- (void)mainDisplayComplete ;
+@end
+
+@protocol XTDraggableTableAboveDelegate <NSObject>
+@required
+- (void)above_pullup:(MJRefreshHeader *)header ; // [header endrefresh] when request complete or fail .
+@optional
+- (void)aboveDisplayComplete ;
+@end
 
 
-#pragma mark - XTDraggableTableDelegate
-- (void)main_pullup:(MJRefreshHeader *)header
-{
-    NSLog(@"请求 main") ;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        // 模拟请求结束 .
-        [header endRefreshing] ;
-    });
-}
+@interface XTDraggableTable : UIView
+@property (nonatomic,weak) id <XTDraggableTableMainDelegate>    mainDelegate    ;
+@property (nonatomic,weak) id <XTDraggableTableAboveDelegate>   aboveDelegate   ;
+@property (nonatomic,strong,readonly) UITableView *mainTable     ;
+@property (nonatomic,strong,readonly) UITableView *aboveTable    ;
+@property (nonatomic,assign) float mainDragHeight   ;
+@property (nonatomic,assign) float aboveDragHeight  ;
+// setup
+- (void)setup:(id)handler ; // ctrller,mainHandler,aboveHandler
+- (void)setupWithController:(UIViewController *)ctrller
+mainHandler:(id)mainHandler
+aboveHandler:(id)aboveHandler ;
+// scrollViewDelegate
+- (void)manageScrollViewDidScroll:(UIScrollView *)scrollView                    ;
+- (void)manageScrollViewWillEndDragging:(UIScrollView *)scrollView
+withVelocity:(CGPoint)velocity
+targetContentOffset:(inout CGPoint *)targetContentOffset    ;
+// reload table
+- (void)reloadMain  ;
+- (void)reloadAbove ;
+@end
 
-- (void)above_pullup:(MJRefreshHeader *)header
-{
-    NSLog(@"请求 above") ;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        // 模拟请求结束 .
-        [header endRefreshing] ;
-    });
-}
-
-- (void)aboveDisplayComplete
-{
-    NSLog(@"aboveDisplayComplete") ;
-}
-- (void)mainDisplayComplete
-{
-    NSLog(@"mainDisplayComplete") ;
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self.draggableTable manageScrollViewDidScroll:scrollView] ;
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-    [self.draggableTable manageScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset] ;
-}
 ```
