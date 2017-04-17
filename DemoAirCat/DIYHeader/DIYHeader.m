@@ -86,7 +86,6 @@
         case MJRefreshStateIdle:
         {
             self.stateLabel.text = @"下拉刷新" ;
-            self.stateLabel.text = [self.lastUpdatedTime description] ;
         }
             break;
         case MJRefreshStatePulling:

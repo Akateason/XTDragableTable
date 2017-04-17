@@ -7,12 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "MJRefresh.h"
-#import "XTDraggableTable.h"
+#import "Masonry.h"
+#import <objc/runtime.h>
 
-@interface ViewController () <XTDraggableTableMainDelegate,XTDraggableTableAboveDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 
-@property (nonatomic,strong) XTDraggableTable *draggableTable ;
+@interface ViewController () <UITableViewDataSource,UITableViewDelegate>
 
 @end
 
@@ -22,137 +21,46 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    [self.navigationController setNavigationBarHidden:YES animated:NO] ;
-    self.edgesForExtendedLayout = UIRectEdgeNone ;
-    
-    self.draggableTable = ({
-        XTDraggableTable *view = [XTDraggableTable new] ;
-        [view setup:self] ;
-        view ;
-    }) ;
-    
-}
+    self.title = @"home" ;
 
-
-
-
-#pragma mark - XTDraggableTableDelegate
-- (void)main_pullup:(MJRefreshHeader *)header
-{
-    NSLog(@"请求 main") ;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        // 模拟请求结束 .
-        [header endRefreshing] ;
-    });
-}
-
-- (void)mainDisplayComplete
-{
-    NSLog(@"mainDisplayComplete") ;
-}
-
-- (void)above_pullup:(MJRefreshHeader *)header
-{
-    NSLog(@"请求 above") ;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        // 模拟请求结束 .
-        [header endRefreshing] ;
-    });
-}
-
-- (void)aboveDisplayComplete
-{
-    NSLog(@"aboveDisplayComplete") ;
-}
-
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self.draggableTable manageScrollViewDidScroll:scrollView] ;
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-    [self.draggableTable manageScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset] ;
-}
-
-/*
-// called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
+    UITableView *table = [UITableView new] ;
+    [self.view addSubview:table] ;
+    table.dataSource = self ;
+    table.delegate = self ;
+    [table mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0)) ;
+    }] ;
     
 }
 
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-// called on finger up as we are moving
-{
-    
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView      // called when scroll view grinds to a halt
-{
-    
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
-{
-    
-}
-*/
-
-
-
-
-
-
-
-
-
-
-#pragma mark -
 #pragma mark -
 #pragma mark - UITableViewDataSource<NSObject>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView.tag == kTagMainTable) {
-        return 10 ;
-    }
-    else if (tableView.tag == kTagAboveTable) {
-        return 5 ;
-    }
-
-    return 0 ;
+    return 2 ;
 }
+
+static NSString *const kIDCell = @"testCell" ;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag == kTagMainTable) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"test333"] ;
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test333"] ;
-        }
-        cell.textLabel.text = @"aaaaaaaaaaaaaaaaa" ;
-        cell.backgroundColor = [UIColor purpleColor] ;
-        return cell ;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kIDCell] ;
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIDCell] ;
     }
-    else if (tableView.tag == kTagAboveTable) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"test333"] ;
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test333"] ;
-        }
-        cell.textLabel.text = @"bbbbbbbbbbbbbbbbbbbbbbbbbb" ;
-        cell.backgroundColor = [UIColor orangeColor] ;
-        return cell ;
-    }
-    
-    return nil ;
+    cell.textLabel.text = [NSString stringWithFormat:@"Zample%dController",(int)indexPath.row] ;
+    return cell ;
 }
 
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *clsName = [NSString stringWithFormat:@"Zample%dController",(int)indexPath.row] ;
+    Class ctrllerCls = objc_getRequiredClass([clsName UTF8String]) ;
+    UIViewController *ctrller = [[ctrllerCls alloc] init] ;
+    ctrller.title = clsName ;
+    [self.navigationController pushViewController:ctrller animated:YES] ;
+}
 
 
 
