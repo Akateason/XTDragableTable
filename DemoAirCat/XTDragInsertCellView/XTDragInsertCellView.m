@@ -71,7 +71,8 @@
 
 - (Z1Header *)long_header
 {
-    if (!_long_header) {
+    if (!_long_header)
+    {
         _long_header = [Z1Header headerWithRefreshingTarget:self
                                            refreshingAction:@selector(loadNewDataSelector)] ;
     }
@@ -80,7 +81,8 @@
 
 - (DIYHeader *)normal_header
 {
-    if (!_normal_header) {
+    if (!_normal_header)
+    {
         _normal_header = [DIYHeader headerWithRefreshingTarget:self
                                               refreshingAction:@selector(loadNewDataSelector)] ;
     }
@@ -89,9 +91,9 @@
 
 - (void)loadNewDataSelector
 {
-    NSLog(@"pull up") ;
-
-    if (self.delegate && [self.delegate respondsToSelector:@selector(pullup:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pullup:)])
+    {
+        NSLog(@"pull up") ;
         [self.delegate pullup:self.table.mj_header] ;
     }
 }
