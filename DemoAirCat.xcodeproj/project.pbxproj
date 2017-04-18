@@ -106,10 +106,10 @@
 		607E5FB31EA485A600D05213 /* Zam1Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zam1Cell.h; sourceTree = "<group>"; };
 		607E5FB41EA485A600D05213 /* Zam1Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zam1Cell.m; sourceTree = "<group>"; };
 		607E5FB51EA485A600D05213 /* Zam1Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Zam1Cell.xib; sourceTree = "<group>"; };
-		607E5FB81EA4883000D05213 /* Z1Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z1Header.h; sourceTree = "<group>"; };
-		607E5FB91EA4883000D05213 /* Z1Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Z1Header.m; sourceTree = "<group>"; };
-		607E5FC31EA4BC0200D05213 /* XTDragInsertCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XTDragInsertCellView.h; path = XTDraggableTable/XTDragInsertCellView.h; sourceTree = "<group>"; };
-		607E5FC41EA4BC0200D05213 /* XTDragInsertCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XTDragInsertCellView.m; path = XTDraggableTable/XTDragInsertCellView.m; sourceTree = "<group>"; };
+		607E5FB81EA4883000D05213 /* Z1Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Z1Header.h; path = DIYHeader/Z1Header.h; sourceTree = "<group>"; };
+		607E5FB91EA4883000D05213 /* Z1Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Z1Header.m; path = DIYHeader/Z1Header.m; sourceTree = "<group>"; };
+		607E5FC31EA4BC0200D05213 /* XTDragInsertCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XTDragInsertCellView.h; path = XTDragInsertCellView/XTDragInsertCellView.h; sourceTree = "<group>"; };
+		607E5FC41EA4BC0200D05213 /* XTDragInsertCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XTDragInsertCellView.m; path = XTDragInsertCellView/XTDragInsertCellView.m; sourceTree = "<group>"; };
 		60E239211E9624B1001235F2 /* DemoAirCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoAirCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E239251E9624B1001235F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		60E239271E9624B1001235F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -255,13 +255,13 @@
 			name = Vender;
 			sourceTree = "<group>";
 		};
-		607E5FBF1EA4B8E000D05213 /* newgroup */ = {
+		607E5FBF1EA4B8E000D05213 /* XTDragInsertCellView */ = {
 			isa = PBXGroup;
 			children = (
 				607E5FC31EA4BC0200D05213 /* XTDragInsertCellView.h */,
 				607E5FC41EA4BC0200D05213 /* XTDragInsertCellView.m */,
 			);
-			name = newgroup;
+			name = XTDragInsertCellView;
 			sourceTree = "<group>";
 		};
 		60E239181E9624B1001235F2 = {
@@ -287,7 +287,7 @@
 		60E239231E9624B1001235F2 /* DemoAirCat */ = {
 			isa = PBXGroup;
 			children = (
-				607E5FBF1EA4B8E000D05213 /* newgroup */,
+				607E5FBF1EA4B8E000D05213 /* XTDragInsertCellView */,
 				60E239A71E9B1887001235F2 /* DIYheader */,
 				60E239581E962B4F001235F2 /* XTDraggableTable */,
 				60E239271E9624B1001235F2 /* AppDelegate.h */,
