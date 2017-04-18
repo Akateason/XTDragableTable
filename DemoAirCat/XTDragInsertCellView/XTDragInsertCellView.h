@@ -15,17 +15,23 @@
 @end
 
 @interface XTDragInsertCellView : UIView
-@property (nonatomic)       float                               heightReset ;
+
 @property (nonatomic,weak)  id <XTDragInsertCellViewDelegate>   delegate    ;
 @property (nonatomic,strong,readonly) UITableView               *table      ;
 
 - (instancetype)initWithHandler:(id)handler
-                    heightReset:(float)height ;
+                  heightForBack:(float)height ;
+- (instancetype)initWithHandler:(id)handler
+                      autoReset:(BOOL)autoReset
+                  heightForBack:(float)height ;
 
-- (NSInteger)rowsInfirstSection ;
+- (NSInteger)rowsInfirstSection ; // rewrite tableview datasource cellForRow 1st section ;
 
-- (void)manageScrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset ;
+- (void)manageScrollViewWillEndDragging:(UIScrollView *)scrollView
+                           withVelocity:(CGPoint)velocity
+                    targetContentOffset:(inout CGPoint *)targetContentOffset ;
 - (void)manageScrollViewDidScroll:(UIScrollView *)scrollView ;
+
 @end
 
 

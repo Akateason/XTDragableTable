@@ -27,7 +27,9 @@ static NSString *const kIDZam1Cell  = @"Zam1Cell" ;
     self.edgesForExtendedLayout = UIRectEdgeNone ;
 
     self.insertView = ({
-        XTDragInsertCellView *view = [[XTDragInsertCellView alloc] initWithHandler:self heightReset:[Zam1Cell cellHeight]] ;
+        XTDragInsertCellView *view = [[XTDragInsertCellView alloc] initWithHandler:self
+                                                                         autoReset:true
+                                                                     heightForBack:[Zam1Cell cellHeight]] ;
         [view.table registerNib:[UINib nibWithNibName:kIDZam1Cell bundle:nil] forCellReuseIdentifier:kIDZam1Cell] ;
         view ;
     }) ;
@@ -107,9 +109,12 @@ static NSString *const kIDZam1Cell  = @"Zam1Cell" ;
 
 
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    [self.insertView manageScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset] ;
+    [self.insertView manageScrollViewWillEndDragging:scrollView
+                                        withVelocity:velocity
+                                 targetContentOffset:targetContentOffset] ;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
