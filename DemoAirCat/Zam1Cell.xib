@@ -11,22 +11,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Zam1Cell" rowHeight="244" id="KGk-i7-Jjw" customClass="Zam1Cell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="244"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Zam1Cell" rowHeight="324" id="KGk-i7-Jjw" customClass="Zam1Cell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="324"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="243.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="323.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dcs-jW-k3F">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="175"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                         <color key="backgroundColor" red="0.98332244160000004" green="0.50221842530000005" blue="0.0099967326970000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="175" id="JDQ-zh-o4J"/>
+                            <constraint firstAttribute="height" constant="250" id="JDQ-zh-o4J"/>
                         </constraints>
                     </view>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="t45-BL-ERt">
-                        <rect key="frame" x="100" y="205" width="121" height="29"/>
+                        <rect key="frame" x="100" y="285" width="121" height="29"/>
                         <segments>
                             <segment title="First"/>
                             <segment title="Second"/>
@@ -42,7 +42,7 @@
                     <constraint firstItem="dcs-jW-k3F" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="n14-9Q-dkm"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="25" y="17"/>
+            <point key="canvasLocation" x="26" y="54"/>
         </tableViewCell>
     </objects>
 </document>

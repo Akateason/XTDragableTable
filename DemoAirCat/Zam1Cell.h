@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface Zam1Cell : UITableViewCell
-
++ (float)cellHeight ;
 @end

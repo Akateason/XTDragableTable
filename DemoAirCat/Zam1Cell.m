@@ -10,6 +10,11 @@
 
 @implementation Zam1Cell
 
++ (float)cellHeight
+{
+    return 324. ;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

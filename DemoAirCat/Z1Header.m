@@ -7,20 +7,20 @@
 //
 
 #import "Z1Header.h"
+#import "Zam1Cell.h"
 
 @implementation Z1Header
 
 - (void)prepare
 {
     UIView *cell = [[[NSBundle mainBundle] loadNibNamed:@"Zam1Cell" owner:self options:nil] lastObject] ;
-    cell.frame = CGRectMake(0, - (244 - MJRefreshHeaderHeight), [UIScreen mainScreen].bounds.size.width, 244) ;
+    cell.frame = CGRectMake(0, - ([Zam1Cell cellHeight]  - MJRefreshHeaderHeight), [UIScreen mainScreen].bounds.size.width, [Zam1Cell cellHeight] ) ;
     [self addSubview:cell] ;
     
-    
+    // call super prepare
     [super prepare] ;
 }
 
-#pragma mark 在这里设置子控件的位置和尺寸
 - (void)placeSubviews
 {
     [super placeSubviews] ;    

@@ -23,6 +23,7 @@
 		607E5FB61EA485A600D05213 /* Zam1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 607E5FB41EA485A600D05213 /* Zam1Cell.m */; };
 		607E5FB71EA485A600D05213 /* Zam1Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607E5FB51EA485A600D05213 /* Zam1Cell.xib */; };
 		607E5FBA1EA4883000D05213 /* Z1Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 607E5FB91EA4883000D05213 /* Z1Header.m */; };
+		607E5FC51EA4BC0200D05213 /* XTDragInsertCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 607E5FC41EA4BC0200D05213 /* XTDragInsertCellView.m */; };
 		60E239261E9624B1001235F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239251E9624B1001235F2 /* main.m */; };
 		60E239291E9624B1001235F2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E239281E9624B1001235F2 /* AppDelegate.m */; };
 		60E2392C1E9624B1001235F2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2392B1E9624B1001235F2 /* ViewController.m */; };
@@ -107,6 +108,8 @@
 		607E5FB51EA485A600D05213 /* Zam1Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Zam1Cell.xib; sourceTree = "<group>"; };
 		607E5FB81EA4883000D05213 /* Z1Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z1Header.h; sourceTree = "<group>"; };
 		607E5FB91EA4883000D05213 /* Z1Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Z1Header.m; sourceTree = "<group>"; };
+		607E5FC31EA4BC0200D05213 /* XTDragInsertCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XTDragInsertCellView.h; path = XTDraggableTable/XTDragInsertCellView.h; sourceTree = "<group>"; };
+		607E5FC41EA4BC0200D05213 /* XTDragInsertCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XTDragInsertCellView.m; path = XTDraggableTable/XTDragInsertCellView.m; sourceTree = "<group>"; };
 		60E239211E9624B1001235F2 /* DemoAirCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoAirCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E239251E9624B1001235F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		60E239271E9624B1001235F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -230,8 +233,6 @@
 				607E5FB31EA485A600D05213 /* Zam1Cell.h */,
 				607E5FB41EA485A600D05213 /* Zam1Cell.m */,
 				607E5FB51EA485A600D05213 /* Zam1Cell.xib */,
-				607E5FB81EA4883000D05213 /* Z1Header.h */,
-				607E5FB91EA4883000D05213 /* Z1Header.m */,
 			);
 			name = z1;
 			sourceTree = "<group>";
@@ -252,6 +253,15 @@
 				60E2395F1E972F9A001235F2 /* MJRefresh */,
 			);
 			name = Vender;
+			sourceTree = "<group>";
+		};
+		607E5FBF1EA4B8E000D05213 /* newgroup */ = {
+			isa = PBXGroup;
+			children = (
+				607E5FC31EA4BC0200D05213 /* XTDragInsertCellView.h */,
+				607E5FC41EA4BC0200D05213 /* XTDragInsertCellView.m */,
+			);
+			name = newgroup;
 			sourceTree = "<group>";
 		};
 		60E239181E9624B1001235F2 = {
@@ -277,6 +287,7 @@
 		60E239231E9624B1001235F2 /* DemoAirCat */ = {
 			isa = PBXGroup;
 			children = (
+				607E5FBF1EA4B8E000D05213 /* newgroup */,
 				60E239A71E9B1887001235F2 /* DIYheader */,
 				60E239581E962B4F001235F2 /* XTDraggableTable */,
 				60E239271E9624B1001235F2 /* AppDelegate.h */,
@@ -426,6 +437,8 @@
 		60E239A71E9B1887001235F2 /* DIYheader */ = {
 			isa = PBXGroup;
 			children = (
+				607E5FB81EA4883000D05213 /* Z1Header.h */,
+				607E5FB91EA4883000D05213 /* Z1Header.m */,
 				607E5F801EA1028E00D05213 /* DIYHeader.h */,
 				607E5F811EA1028E00D05213 /* DIYHeader.m */,
 			);
@@ -568,6 +581,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				607E5FC51EA4BC0200D05213 /* XTDragInsertCellView.m in Sources */,
 				60E239921E972F9A001235F2 /* MJRefreshAutoNormalFooter.m in Sources */,
 				60E239951E972F9A001235F2 /* MJRefreshBackNormalFooter.m in Sources */,
 				60E2398D1E972F9A001235F2 /* MJRefreshBackFooter.m in Sources */,

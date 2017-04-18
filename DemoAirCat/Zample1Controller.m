@@ -7,18 +7,15 @@
 //
 
 #import "Zample1Controller.h"
-#import "Masonry.h"
+#import "XTDragInsertCellView.h"
 #import "Zam1Cell.h"
 #import "MJRefresh.h"
-#import "Z1Header.h"
 
-@interface Zample1Controller () <UITableViewDataSource,UITableViewDelegate>
-{
-    BOOL bPulled ;
-}
-@property (nonatomic,strong) UITableView    *table ;
-@property (nonatomic,strong) Z1Header       *long_header ;
-@property (nonatomic,strong) DIYHeader      *normal_header ;
+static NSString *const kIDCell      = @"z1testCell" ;
+static NSString *const kIDZam1Cell  = @"Zam1Cell" ;
+
+@interface Zample1Controller () <UITableViewDataSource,UITableViewDelegate,XTDragInsertCellViewDelegate>
+@property (nonatomic,strong) XTDragInsertCellView *insertView ;
 @end
 
 @implementation Zample1Controller
@@ -29,60 +26,25 @@
 
     self.edgesForExtendedLayout = UIRectEdgeNone ;
 
-    // Do any additional setup after loading the view.
-    self.table = ({
-        UITableView *table = [UITableView new] ;
-        [table registerNib:[UINib nibWithNibName:@"Zam1Cell" bundle:nil] forCellReuseIdentifier:@"Zam1Cell"] ;
-        [self.view addSubview:table] ;
-        table.dataSource = self ;
-        table.delegate = self ;
-        table.mj_header = self.long_header ;
-        [table mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0)) ;
-        }] ;
-        table ;
+    self.insertView = ({
+        XTDragInsertCellView *view = [[XTDragInsertCellView alloc] initWithHandler:self heightReset:[Zam1Cell cellHeight]] ;
+        [view.table registerNib:[UINib nibWithNibName:kIDZam1Cell bundle:nil] forCellReuseIdentifier:kIDZam1Cell] ;
+        view ;
     }) ;
-}
-
-
-#pragma mark -
-- (Z1Header *)long_header
-{
-    if (!_long_header) {
-        _long_header = [Z1Header headerWithRefreshingTarget:self refreshingAction:@selector(loadNewDataSelector)] ;
-    }
-    return _long_header ;
-}
-
-- (DIYHeader *)normal_header
-{
-    if (!_normal_header) {
-        _normal_header = [DIYHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewDataSelector)] ;
-    }
-    return _normal_header ;
-}
-
-
-- (void)loadNewDataSelector
-{
-    NSLog(@"pull up") ;
     
+}
+
+
+#pragma mark - XTDragInsertCellViewDelegate <NSObject>
+- (void)pullup:(MJRefreshHeader *)header
+{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2ull * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        bPulled = false ;
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.table.mj_header = self.long_header ;
-            [self.table reloadData] ;
-        }) ;
-        
-    
         // 模拟请求结束 .
-        [self.table.mj_header endRefreshing] ;
+        [header endRefreshing] ;
     });
-
 }
+
 
 
 #pragma mark - UITableViewDataSource
@@ -94,7 +56,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return bPulled ? 1 : 0 ;
+        return [self.insertView rowsInfirstSection] ;
     }
     else if (section == 1) {
         return 20 ;
@@ -102,14 +64,14 @@
     return 0 ;
 }
 
-static NSString *const kIDCell = @"z1testCell" ;
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     int section = (int)indexPath.section ;
     
     if (section == 0) {
-        Zam1Cell *cell = [tableView dequeueReusableCellWithIdentifier:@"Zam1Cell" forIndexPath:indexPath] ;
+        Zam1Cell *cell = [tableView dequeueReusableCellWithIdentifier:kIDZam1Cell forIndexPath:indexPath] ;
         return cell ;
     }
     else if (section == 1) {
@@ -135,7 +97,7 @@ static NSString *const kIDCell = @"z1testCell" ;
     int section = (int)indexPath.section ;
     
     if (section == 0) {
-        return 244 ;
+        return [Zam1Cell cellHeight] ;
     }
     else if (section == 1) {
         return 44. ;
@@ -144,32 +106,22 @@ static NSString *const kIDCell = @"z1testCell" ;
 }
 
 
-#pragma mark -
+#pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    NSLog(@"y : %f",scrollView.contentOffset.y) ;
-    UITableView *table = (UITableView *)scrollView ;
-    if (scrollView.contentOffset.y < - 100 && bPulled == false)
-    {
-        NSLog(@"do insert ") ;
-        [self.table.mj_header endRefreshing] ;
-        bPulled = true ;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.table.mj_header = self.normal_header ;
-            [table insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                         withRowAnimation:UITableViewRowAnimationTop] ;
-        }) ;
-    }
-    
+    [self.insertView manageScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset] ;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.insertView manageScrollViewDidScroll:scrollView] ;
 }
 
 
 
 
 
-
-
+#pragma mark -
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
