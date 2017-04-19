@@ -17,7 +17,6 @@
 @property (nonatomic)        BOOL           bPulledOut      ;
 @property (nonatomic,strong) UITableView    *table          ;
 @property (nonatomic,strong) Z1Header       *long_header    ;
-@property (nonatomic,strong) DIYHeader      *normal_header  ;
 @end
 
 @implementation XTDragInsertCellView
@@ -79,16 +78,6 @@
     return _long_header ;
 }
 
-- (DIYHeader *)normal_header
-{
-    if (!_normal_header)
-    {
-        _normal_header = [DIYHeader headerWithRefreshingTarget:self
-                                              refreshingAction:@selector(loadNewDataSelector)] ;
-    }
-    return _normal_header ;
-}
-
 - (void)loadNewDataSelector
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(pullup:)])
@@ -116,7 +105,8 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [table insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop] ;
             [self.table.mj_header endRefreshing] ;
-            self.table.mj_header = self.normal_header ;
+
+            ((Z1Header *)self.table.mj_header).bHideBack = YES ;
         }] ;
     }
 }
@@ -135,7 +125,9 @@
         self.bPulledOut = false ;
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            ((Z1Header *)self.table.mj_header).bHideBack = NO ;
             self.table.mj_header = self.long_header ;
+            self.table.contentOffset = CGPointZero ;
             [self.table reloadData] ;
         }] ;
     }

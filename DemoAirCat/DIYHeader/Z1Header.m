@@ -9,13 +9,27 @@
 #import "Z1Header.h"
 #import "Zam1Cell.h"
 
+@interface Z1Header ()
+@property (nonatomic,strong) UIView *cell ;
+@end
+
 @implementation Z1Header
+
+- (void)setBHideBack:(BOOL)bHideBack
+{
+    _bHideBack = bHideBack ;
+    
+    self.cell.hidden = bHideBack ;
+}
 
 - (void)prepare
 {
-    UIView *cell = [[[NSBundle mainBundle] loadNibNamed:@"Zam1Cell" owner:self options:nil] lastObject] ;
-    cell.frame = CGRectMake(0, - ([Zam1Cell cellHeight]  - MJRefreshHeaderHeight), [UIScreen mainScreen].bounds.size.width, [Zam1Cell cellHeight] ) ;
-    [self addSubview:cell] ;
+    self.cell = ({
+        UIView *view = [[[NSBundle mainBundle] loadNibNamed:@"Zam1Cell" owner:self options:nil] lastObject] ;
+        view.frame = CGRectMake(0, - ([Zam1Cell cellHeight]  - MJRefreshHeaderHeight), [UIScreen mainScreen].bounds.size.width, [Zam1Cell cellHeight] ) ;
+        [self addSubview:view] ;
+        view ;
+    });
     
     // call super prepare
     [super prepare] ;
