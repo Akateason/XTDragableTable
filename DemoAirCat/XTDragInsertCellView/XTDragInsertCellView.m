@@ -127,8 +127,8 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             ((Z1Header *)self.table.mj_header).bHideBack = NO ;
             self.table.mj_header = self.long_header ;
-            self.table.contentOffset = CGPointZero ;
             [self.table reloadData] ;
+            self.table.contentOffset = CGPointZero ;
         }] ;
     }
 }
